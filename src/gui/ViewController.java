@@ -34,12 +34,13 @@ public class ViewController implements Initializable {
 
 	@FXML
 	public void onMenuItemDepartamentoAction() {
-		System.out.println("Departamento");
+		carregarOutraTela("/gui/ListaDeDepartamento.fxml");
+		
 	}
 
 	@FXML
 	public void onMenuItemSobreAction() {
-		loadView("/gui/ViewSobre.fxml");
+		carregarOutraTela("/gui/ViewSobre.fxml");
 	}
 
 	@Override
@@ -47,7 +48,7 @@ public class ViewController implements Initializable {
 
 	}
 
-	private synchronized void loadView(String nomeCompletoDaTela) {
+	private synchronized void carregarOutraTela(String nomeCompletoDaTela) {
 		
 		try {
 			FXMLLoader carregar = new FXMLLoader(getClass().getResource(nomeCompletoDaTela));
