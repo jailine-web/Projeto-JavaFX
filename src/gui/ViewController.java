@@ -15,6 +15,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
+import model.services.DepartamentoServico;
 
 public class ViewController implements Initializable {
 
@@ -34,7 +35,7 @@ public class ViewController implements Initializable {
 
 	@FXML
 	public void onMenuItemDepartamentoAction() {
-		carregarOutraTela("/gui/ListaDeDepartamento.fxml");
+		carregarOutraTela2("/gui/ListaDeDepartamento.fxml");
 		
 	}
 
@@ -65,6 +66,32 @@ public class ViewController implements Initializable {
 		} 
 		catch (IOException e) {
 			Alertas.showAlert("IO Exception", "Erro ao carregar a página", e.getMessage(), AlertType.ERROR);
+		}
+	}
+	
+	private synchronized void carregarOutraTela2(String nomeCompletoDaTela) {
+		
+		try {
+			FXMLLoader carregar = new FXMLLoader(getClass().getResource(nomeCompletoDaTela));
+			VBox vboxNovo = carregar.load();
+			
+			Scene cenaPrin = Main.getCenaPrincipal();
+			VBox principalVBox = (VBox) ((ScrollPane) cenaPrin.getRoot()).getContent();
+			
+			Node menuPrincipal = principalVBox.getChildren().get(0);
+			principalVBox.getChildren().clear();
+			principalVBox.getChildren().add(menuPrincipal);
+			principalVBox.getChildren().addAll(vboxNovo.getChildren());
+			
+			ListaDepartamentoController controle = carregar.getController();
+			controle.setDepartamentoServico(new DepartamentoServico());
+			controle.atualizarTelaTabela();
+			
+		} 
+		catch (IOException e) {
+			//Alertas.showAlert("IO Exception", "Erro ao carregar a página", 
+			//e.getMessage(), AlertType.ERROR);
+			e.printStackTrace();
 		}
 	}
 
