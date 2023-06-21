@@ -3,6 +3,7 @@ package gui;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 
 import application.Main;
 import gui.util.Alertas;
@@ -35,13 +36,16 @@ public class ViewController implements Initializable {
 
 	@FXML
 	public void onMenuItemDepartamentoAction() {
-		carregarOutraTela2("/gui/ListaDeDepartamento.fxml");
+		carregarOutraTela("/gui/ListaDeDepartamento.fxml",(ListaDepartamentoController controller) -> {
+			controller.setDepartamentoServico(new DepartamentoServico());
+			controller.atualizarTelaTabela();
+		});
 		
 	}
 
 	@FXML
 	public void onMenuItemSobreAction() {
-		carregarOutraTela("/gui/ViewSobre.fxml");
+		carregarOutraTela("/gui/ViewSobre.fxml", x -> {});
 	}
 
 	@Override
@@ -49,7 +53,7 @@ public class ViewController implements Initializable {
 
 	}
 
-	private synchronized void carregarOutraTela(String nomeCompletoDaTela) {
+	private synchronized <T> void carregarOutraTela(String nomeCompletoDaTela, Consumer<T> acaoDeInicializacao) {
 		
 		try {
 			FXMLLoader carregar = new FXMLLoader(getClass().getResource(nomeCompletoDaTela));
@@ -63,35 +67,15 @@ public class ViewController implements Initializable {
 			principalVBox.getChildren().add(menuPrincipal);
 			principalVBox.getChildren().addAll(vboxNovo.getChildren());
 
+			//ativar a função passada e retorna o parâmetro atribuido por parâmetro
+			T controller = carregar.getController();
+			
+			//Executa a função por paramero
+			acaoDeInicializacao.accept(controller);
+			
 		} 
 		catch (IOException e) {
 			Alertas.showAlert("IO Exception", "Erro ao carregar a página", e.getMessage(), AlertType.ERROR);
-		}
-	}
-	
-	private synchronized void carregarOutraTela2(String nomeCompletoDaTela) {
-		
-		try {
-			FXMLLoader carregar = new FXMLLoader(getClass().getResource(nomeCompletoDaTela));
-			VBox vboxNovo = carregar.load();
-			
-			Scene cenaPrin = Main.getCenaPrincipal();
-			VBox principalVBox = (VBox) ((ScrollPane) cenaPrin.getRoot()).getContent();
-			
-			Node menuPrincipal = principalVBox.getChildren().get(0);
-			principalVBox.getChildren().clear();
-			principalVBox.getChildren().add(menuPrincipal);
-			principalVBox.getChildren().addAll(vboxNovo.getChildren());
-			
-			ListaDepartamentoController controle = carregar.getController();
-			controle.setDepartamentoServico(new DepartamentoServico());
-			controle.atualizarTelaTabela();
-			
-		} 
-		catch (IOException e) {
-			//Alertas.showAlert("IO Exception", "Erro ao carregar a página", 
-			//e.getMessage(), AlertType.ERROR);
-			e.printStackTrace();
 		}
 	}
 
