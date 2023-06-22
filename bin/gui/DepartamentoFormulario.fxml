@@ -26,7 +26,7 @@
          <children>
             <Label text="Id" />
             <Label text="Nome" GridPane.rowIndex="1" />
-            <TextField fx:id="txtID" editable="false" GridPane.columnIndex="1" />
+            <TextField fx:id="txtId" editable="false" GridPane.columnIndex="1" />
             <TextField fx:id="txtNome" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Label fx:id="labelNomeErro" textFill="#f81919" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <padding>

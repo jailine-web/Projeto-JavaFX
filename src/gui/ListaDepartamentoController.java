@@ -67,7 +67,8 @@ public class ListaDepartamentoController implements Initializable{
 	public void onBtNovoAction(ActionEvent evento) {
 		
 		Stage palcoPai = Utils.PalcoAtual(evento);
-		criarFormularioDialogo("/gui/DepartamentoFormulario.fxml", palcoPai);
+		Departamento dep = new Departamento();
+		criarFormularioDialogo(dep, "/gui/DepartamentoFormulario.fxml", palcoPai);
 	}
 	
 	public void atualizarTelaTabela() {
@@ -81,12 +82,16 @@ public class ListaDepartamentoController implements Initializable{
 		tableViewDepartamento.setItems(obsLista);
 	}
 	
-	private void criarFormularioDialogo(String nomeCompletoDaTela, Stage palco) {
+	private void criarFormularioDialogo(Departamento dep, String nomeCompletoDaTela, Stage palco) {
 		
 		try {
 			
 			FXMLLoader carregar = new FXMLLoader(getClass().getResource(nomeCompletoDaTela));
 			Pane pane = carregar.load();
+			
+			DepartamentoController controler = carregar.getController();
+			controler.setDepartamento(dep);
+			controler.atualizaDadosFormulários();
 			
 			Stage palcoDialogo = new Stage();
 			palcoDialogo.setTitle("Entre com os dados do departamento");
