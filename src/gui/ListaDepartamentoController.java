@@ -1,18 +1,27 @@
 package gui;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import application.Main;
+import gui.util.Alertas;
+import gui.util.Utils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.entities.Departamento;
 import model.services.DepartamentoServico;
@@ -55,8 +64,10 @@ public class ListaDepartamentoController implements Initializable{
 		
 	}
 
-	public void onBtNovoAction() {
-		System.out.println("botão");
+	public void onBtNovoAction(ActionEvent evento) {
+		
+		Stage palcoPai = Utils.PalcoAtual(evento);
+		criarFormularioDialogo("/gui/DepartamentoFormulario.fxml", palcoPai);
 	}
 	
 	public void atualizarTelaTabela() {
@@ -68,6 +79,27 @@ public class ListaDepartamentoController implements Initializable{
 		List<Departamento> lista = departamentoServico.encontrarTodos();
 		obsLista = FXCollections.observableArrayList(lista);
 		tableViewDepartamento.setItems(obsLista);
+	}
+	
+	private void criarFormularioDialogo(String nomeCompletoDaTela, Stage palco) {
+		
+		try {
+			
+			FXMLLoader carregar = new FXMLLoader(getClass().getResource(nomeCompletoDaTela));
+			Pane pane = carregar.load();
+			
+			Stage palcoDialogo = new Stage();
+			palcoDialogo.setTitle("Entre com os dados do departamento");
+			palcoDialogo.setScene(new Scene(pane));
+			palcoDialogo.setResizable(false);
+			palcoDialogo.initOwner(palco);
+			palcoDialogo.initModality(Modality.WINDOW_MODAL);
+			palcoDialogo.showAndWait();
+			
+		}
+		catch(IOException e) {
+			Alertas.showAlert("IO Exceção", "Erro ao carregar a tela", e.getMessage(), AlertType.ERROR);
+		}
 	}
 	
 }
