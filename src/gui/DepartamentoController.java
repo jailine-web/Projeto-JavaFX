@@ -3,17 +3,25 @@ package gui;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import db.DbException;
+import gui.util.Alertas;
 import gui.util.Limitacoes;
+import gui.util.Utils;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import model.entities.Departamento;
+import model.services.DepartamentoServico;
 
 public class DepartamentoController implements Initializable{
 
 	private Departamento departamento;
+	
+	private DepartamentoServico servico;
 	
 	@FXML
 	private TextField txtId;
@@ -34,12 +42,41 @@ public class DepartamentoController implements Initializable{
 		this.departamento = departamento;
 	}
 	
-	public void onBtSaveAction() {
-		System.out.println("Departamento salvo com sucesso");
+	public void setDepartamentoServico(DepartamentoServico servico) {
+		this.servico = servico;
 	}
 	
-	public void onBtCancelarAction() {
-		System.out.println("Voltando");
+	public void onBtSaveAction(ActionEvent evento) {
+		
+		if(departamento == null) {
+			throw new IllegalStateException("O departamento estava nulo");
+		}
+		if(servico == null) {
+			throw new IllegalStateException("O serviço estava nulo");
+		}
+		try {
+			
+			departamento = getDadosFormulario();
+			servico.saveOrUpdate(departamento);
+			Utils.PalcoAtual(evento).close();
+		}
+		catch(DbException e) {
+			Alertas.showAlert("Erro ao salvar o objeto", null, e.getMessage(), AlertType.ERROR);
+		}
+		
+	}
+	
+	private Departamento getDadosFormulario() {
+		Departamento dep = new Departamento();
+		
+		dep.setId(Utils.tentarCoverterParaInt(txtId.getText()));
+		dep.setNome(txtNome.getText());
+		
+		return dep;
+	}
+
+	public void onBtCancelarAction(ActionEvent evento) {
+		Utils.PalcoAtual(evento).close();;
 	}
 	
 	@Override

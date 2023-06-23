@@ -8,16 +8,15 @@ import model.entities.Departamento;
 
 public class DepartamentoServico {
 
+	DepartamentoDao dao = DaoFactory.criarDepartamentoDAO();
+	
 	public List<Departamento> encontrarTodos(){
-		
-		DepartamentoDao dao = DaoFactory.criarDepartamentoDAO();
-		
-		//List<Departamento> lista = new ArrayList<>();
-		//lista.add(new Departamento(1, "Livros"));
-		//lista.add(new Departamento(2, "Computadores"));
-		//lista.add(new Departamento(3, "eletronicos"));
-		
-		
-		return dao.findAll();
+		return dao.buscarTodos();
+	}
+	
+	public void saveOrUpdate(Departamento dep) {
+		if(dep.getId() == null) {
+			dao.inserir(dep);
+		}
 	}
 }

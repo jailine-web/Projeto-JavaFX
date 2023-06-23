@@ -26,7 +26,7 @@ public class VendedorDaoJDBC implements VendedorDao {
 	}
 
 	@Override
-	public void insert(Vendedor obj) {
+	public void inserir(Vendedor obj) {
 		
 		PreparedStatement st = null;
 		try {
@@ -66,7 +66,7 @@ public class VendedorDaoJDBC implements VendedorDao {
 	}
 
 	@Override
-	public void update(Vendedor obj) {
+	public void atualizar(Vendedor obj) {
 
 		PreparedStatement st = null;
 		try {
@@ -95,7 +95,7 @@ public class VendedorDaoJDBC implements VendedorDao {
 	}
 
 	@Override
-	public void delete(Integer id) {
+	public void excluir(Integer id) {
 
 		PreparedStatement st = null;
 		try {
@@ -116,7 +116,7 @@ public class VendedorDaoJDBC implements VendedorDao {
 	}
 
 	@Override
-	public Vendedor findById(Integer id) {
+	public Vendedor buscarPorId(Integer id) {
 
 		PreparedStatement st = null;
 		ResultSet rs = null;
@@ -166,7 +166,7 @@ public class VendedorDaoJDBC implements VendedorDao {
 	}
 
 	@Override
-	public List<Vendedor> findAll() {
+	public List<Vendedor> buscarTodos() {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 
@@ -207,7 +207,7 @@ public class VendedorDaoJDBC implements VendedorDao {
 	}
 
 	@Override
-	public List<Vendedor> findByDepartamento(Departamento departamento) {
+	public List<Vendedor> buscarPorDepartamento(Departamento departamento) {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 
@@ -248,16 +248,5 @@ public class VendedorDaoJDBC implements VendedorDao {
 			DB.closeResultSet(rs);
 		}
 	}
-
-	@Override
-	public List<Vendedor> findByDepartment(Departamento departamento) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-
-	
-
 
 }

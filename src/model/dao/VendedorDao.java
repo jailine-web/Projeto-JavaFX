@@ -7,11 +7,10 @@ import model.entities.Vendedor;
 
 public interface VendedorDao {
 	
-	void insert(Vendedor obj);
-	void update(Vendedor obj);
-	void delete(Integer id);
-	Vendedor findById(Integer id);
-	List<Vendedor> findAll();
-	List<Vendedor> findByDepartment(Departamento department);
-	List<Vendedor> findByDepartamento(Departamento departamento);
+	void inserir(Vendedor obj);
+	void atualizar(Vendedor obj);
+	void excluir(Integer id);
+	Vendedor buscarPorId(Integer id);
+	List<Vendedor> buscarTodos();
+	List<Vendedor>buscarPorDepartamento(Departamento departamento);
 }

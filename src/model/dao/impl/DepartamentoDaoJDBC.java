@@ -23,7 +23,7 @@ public class DepartamentoDaoJDBC implements DepartamentoDao {
 	}
 
 	@Override
-	public void insert(Departamento obj) {
+	public void inserir(Departamento obj) {
 		
 		PreparedStatement st = null;
 		try {
@@ -59,7 +59,7 @@ public class DepartamentoDaoJDBC implements DepartamentoDao {
 	}
 
 	@Override
-	public void update(Departamento obj) {
+	public void atualizar(Departamento obj) {
 
 		PreparedStatement st = null;
 		try {
@@ -85,7 +85,7 @@ public class DepartamentoDaoJDBC implements DepartamentoDao {
 	}
 
 	@Override
-	public void delete(Integer id) {
+	public void excluir(Integer id) {
 
 		PreparedStatement st = null;
 		try {
@@ -109,7 +109,7 @@ public class DepartamentoDaoJDBC implements DepartamentoDao {
 	}
 
 	@Override
-	public Departamento findById(Integer id) {
+	public Departamento buscarPorId(Integer id) {
 
 		PreparedStatement st = null;
 		ResultSet rs = null;
@@ -143,7 +143,7 @@ public class DepartamentoDaoJDBC implements DepartamentoDao {
 
 
 	@Override
-	public List<Departamento> findAll() {
+	public List<Departamento> buscarTodos() {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 

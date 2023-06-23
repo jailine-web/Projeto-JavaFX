@@ -91,6 +91,7 @@ public class ListaDepartamentoController implements Initializable{
 			
 			DepartamentoController controler = carregar.getController();
 			controler.setDepartamento(dep);
+			controler.setDepartamentoServico(new DepartamentoServico());
 			controler.atualizaDadosFormulários();
 			
 			Stage palcoDialogo = new Stage();
