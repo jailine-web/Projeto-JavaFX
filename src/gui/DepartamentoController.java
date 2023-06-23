@@ -1,9 +1,12 @@
 package gui;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import db.DbException;
+import gui.listeners.EscutandoMudancaDeDados;
 import gui.util.Alertas;
 import gui.util.Limitacoes;
 import gui.util.Utils;
@@ -22,6 +25,8 @@ public class DepartamentoController implements Initializable{
 	private Departamento departamento;
 	
 	private DepartamentoServico servico;
+	
+	private List<EscutandoMudancaDeDados> dadosAlterados = new ArrayList<>();
 	
 	@FXML
 	private TextField txtId;
@@ -46,6 +51,10 @@ public class DepartamentoController implements Initializable{
 		this.servico = servico;
 	}
 	
+	public void subscreverDadosAlterados(EscutandoMudancaDeDados e) {
+		dadosAlterados.add(e);
+	}
+	
 	public void onBtSaveAction(ActionEvent evento) {
 		
 		if(departamento == null) {
@@ -58,6 +67,7 @@ public class DepartamentoController implements Initializable{
 			
 			departamento = getDadosFormulario();
 			servico.saveOrUpdate(departamento);
+			notificacaoDeDadosAtualizados();
 			Utils.PalcoAtual(evento).close();
 		}
 		catch(DbException e) {
@@ -66,6 +76,13 @@ public class DepartamentoController implements Initializable{
 		
 	}
 	
+	private void notificacaoDeDadosAtualizados() {
+		
+		for(EscutandoMudancaDeDados e: dadosAlterados) {
+			e.onDadosAlterados();
+		}
+	}
+
 	private Departamento getDadosFormulario() {
 		Departamento dep = new Departamento();
 		
