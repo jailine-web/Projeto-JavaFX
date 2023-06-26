@@ -97,7 +97,7 @@ public class DepartamentoController implements Initializable{
 		dep.setId(Utils.tentarCoverterParaInt(txtId.getText()));
 		
 		if(txtNome.getText() == null || txtNome.getText().trim().equals("")) {
-			excecao.addErros("nome", "O campo não pode ser vazio");
+			excecao.addErros("nome", "O campo: nome não pode ser vazio");
 		}
 		
 		dep.setNome(txtNome.getText());
