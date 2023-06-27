@@ -8,7 +8,7 @@ import javafx.scene.control.ButtonType;
 
 public class Alertas {
 
-	public static void showAlert(String titulo, String cabecalho, String conteudo, AlertType tipo) {
+	public static void mostrarAlerta(String titulo, String cabecalho, String conteudo, AlertType tipo) {
 
 		Alert alerta = new Alert(tipo);
 		alerta.setTitle(titulo);
@@ -18,7 +18,7 @@ public class Alertas {
 
 	}
 
-	public static Optional<ButtonType> showConfirmation(String title, String content) {
+	public static Optional<ButtonType> mostrarConfirmacao(String title, String content) {
 		
 		Alert alerta = new Alert(AlertType.CONFIRMATION);
 		alerta.setTitle(title);

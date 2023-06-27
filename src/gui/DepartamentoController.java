@@ -74,7 +74,7 @@ public class DepartamentoController implements Initializable{
 			Utils.PalcoAtual(evento).close();
 		}
 		catch(DbException e) {
-			Alertas.showAlert("Erro ao salvar o objeto", null, e.getMessage(), AlertType.ERROR);
+			Alertas.mostrarAlerta("Erro ao salvar o objeto", null, e.getMessage(), AlertType.ERROR);
 		}
 		catch(ValidacaoExcecao e) {
 			setMensagemDeErro(e.getErros());

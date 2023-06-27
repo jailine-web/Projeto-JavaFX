@@ -75,7 +75,7 @@ public class ViewController implements Initializable {
 			
 		} 
 		catch (IOException e) {
-			Alertas.showAlert("IO Exception", "Erro ao carregar a página", e.getMessage(), AlertType.ERROR);
+			Alertas.mostrarAlerta("IO Exception", "Erro ao carregar a página", e.getMessage(), AlertType.ERROR);
 		}
 	}
 

@@ -22,4 +22,8 @@ public class DepartamentoServico {
 			dao.atualizar(dep);
 		}
 	}
+	
+	public void deletar(Departamento dep) {
+		dao.excluir(dep.getId());
+	}
 }

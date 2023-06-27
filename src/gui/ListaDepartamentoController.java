@@ -3,9 +3,12 @@ package gui;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import application.Main;
+import db.DbExcecaoDeIntegridade;
+import db.DbException;
 import gui.listeners.EscutandoMudancaDeDados;
 import gui.util.Alertas;
 import gui.util.Utils;
@@ -19,6 +22,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -47,6 +51,9 @@ public class ListaDepartamentoController implements Initializable, EscutandoMuda
 
 	@FXML
 	private TableColumn<Departamento, Departamento> tableColumnEdicao;
+
+	@FXML
+	private TableColumn<Departamento, Departamento> tableColumnRemove;
 
 	private ObservableList<Departamento> obsLista;
 
@@ -87,7 +94,8 @@ public class ListaDepartamentoController implements Initializable, EscutandoMuda
 		obsLista = FXCollections.observableArrayList(lista);
 		tableViewDepartamento.setItems(obsLista);
 		iniciaEdicaoBotoes();
-		
+		BotaoIniciaRemocao();
+
 	}
 
 	private void criarFormularioDialogo(Departamento dep, String nomeCompletoDaTela, Stage palco) {
@@ -112,7 +120,7 @@ public class ListaDepartamentoController implements Initializable, EscutandoMuda
 			palcoDialogo.showAndWait();
 
 		} catch (IOException e) {
-			Alertas.showAlert("IO Exceção", "Erro ao carregar a tela", e.getMessage(), AlertType.ERROR);
+			Alertas.mostrarAlerta("IO Exceção", "Erro ao carregar a tela", e.getMessage(), AlertType.ERROR);
 		}
 	}
 
@@ -125,27 +133,65 @@ public class ListaDepartamentoController implements Initializable, EscutandoMuda
 
 		tableColumnEdicao.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		tableColumnEdicao.setCellFactory(param -> new TableCell<Departamento, Departamento>() {
-		
+
 			private final Button button = new Button("editar");
 
 			@Override
 			protected void updateItem(Departamento obj, boolean empty) {
 				super.updateItem(obj, empty);
-				
+
 				if (obj == null) {
 					setGraphic(null);
 					return;
 				}
-				
+
 				setGraphic(button);
-				
-				button.setOnAction(
-						evento ->  criarFormularioDialogo(obj, "/gui/DepartamentoFormulario.fxml", Utils.PalcoAtual(evento)));
-				
+
+				button.setOnAction(evento -> criarFormularioDialogo(obj, "/gui/DepartamentoFormulario.fxml",
+						Utils.PalcoAtual(evento)));
+
 			}
-		
+
 		});
-		
+
+	}
+
+	private void BotaoIniciaRemocao() {
+		tableColumnRemove.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
+		tableColumnRemove.setCellFactory(param -> new TableCell<Departamento, Departamento>() {
+			private final Button button = new Button("excluir");
+
+			@Override
+			protected void updateItem(Departamento obj, boolean empty) {
+				super.updateItem(obj, empty);
+				if (obj == null) {
+					setGraphic(null);
+					return;
+				}
+				setGraphic(button);
+				button.setOnAction(event -> removeDepartamento(obj));
+			}
+		});
+	}
+
+	private void removeDepartamento(Departamento obj) {
+		Optional<ButtonType> resultado = Alertas.mostrarConfirmacao("Confirmação",
+				"Tem certeza que você quer deletar esse departamento?");
+
+		if (resultado.get() == ButtonType.OK) {
+
+			if (resultado.get() == null) {
+				throw new IllegalStateException("Serviço estava nulo");
+			}
+			try {
+				
+				departamentoServico.deletar(obj);
+				atualizarTelaTabela();
+			}
+			catch(DbException e) {
+				Alertas.mostrarAlerta("Erro ao remover departamento", null, e.getMessage(), AlertType.ERROR);
+			}
+		}
 	}
 
 }
