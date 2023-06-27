@@ -69,7 +69,7 @@ public class DepartamentoController implements Initializable{
 		try {
 			
 			departamento = getDadosFormulario();
-			servico.saveOrUpdate(departamento);
+			servico.salvarOuAtualizar(departamento);
 			notificacaoDeDadosAtualizados();
 			Utils.PalcoAtual(evento).close();
 		}

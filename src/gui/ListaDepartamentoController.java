@@ -87,6 +87,7 @@ public class ListaDepartamentoController implements Initializable, EscutandoMuda
 		obsLista = FXCollections.observableArrayList(lista);
 		tableViewDepartamento.setItems(obsLista);
 		iniciaEdicaoBotoes();
+		
 	}
 
 	private void criarFormularioDialogo(Departamento dep, String nomeCompletoDaTela, Stage palco) {
@@ -137,10 +138,14 @@ public class ListaDepartamentoController implements Initializable, EscutandoMuda
 				}
 				
 				setGraphic(button);
+				
 				button.setOnAction(
 						evento ->  criarFormularioDialogo(obj, "/gui/DepartamentoFormulario.fxml", Utils.PalcoAtual(evento)));
+				
 			}
+		
 		});
+		
 	}
 
 }
