@@ -1,13 +1,12 @@
 package gui;
 
-import java.io.IOException;
 import java.net.URL;
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 import application.Main;
-import db.DbExcecaoDeIntegridade;
 import db.DbException;
 import gui.listeners.EscutandoMudancaDeDados;
 import gui.util.Alertas;
@@ -17,9 +16,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -27,8 +24,6 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.Pane;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.entities.Vendedor;
 import model.services.VendedorServico;
@@ -48,6 +43,15 @@ public class ListaVendedorController implements Initializable, EscutandoMudancaD
 
 	@FXML
 	private TableColumn<Vendedor, String> tableColumnNome;
+	
+	@FXML
+	private TableColumn<Vendedor, String> tableColumnEmail;
+	
+	@FXML
+	private TableColumn<Vendedor, Date> tableColumnNascimento;
+	
+	@FXML
+	private TableColumn<Vendedor, Double> tableColumnSalarioBase;
 
 	@FXML
 	private TableColumn<Vendedor, Vendedor> tableColumnEdicao;
@@ -69,8 +73,13 @@ public class ListaVendedorController implements Initializable, EscutandoMudancaD
 	private void inicializaNos() {
 
 		// Inicia o comportamento das colunas (padrão do javafx) e instancia os dados do banco de dados
-		tableColumnId.setCellValueFactory(new PropertyValueFactory<>("Id"));
-		tableColumnNome.setCellValueFactory(new PropertyValueFactory<>("Name"));
+		tableColumnId.setCellValueFactory(new PropertyValueFactory<>("id"));
+		tableColumnNome.setCellValueFactory(new PropertyValueFactory<>("name"));
+		tableColumnEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+		tableColumnNascimento.setCellValueFactory(new PropertyValueFactory<>("birthDate"));
+		Utils.formatarColunaDataDaTabela(tableColumnNascimento, "dd/MM/yyyy");
+		tableColumnSalarioBase.setCellValueFactory(new PropertyValueFactory<>("baseSalary"));
+		Utils.formatarColunaDoubleDaTabela(tableColumnSalarioBase, 2);
 
 		Stage palco = (Stage) Main.getCenaPrincipal().getWindow();
 		tableViewVendedor.prefHeightProperty().bind(palco.heightProperty());
