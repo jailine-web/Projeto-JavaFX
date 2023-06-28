@@ -32,7 +32,7 @@ public class VendedorDaoJDBC implements VendedorDao {
 		try {
 			st = conn.prepareStatement(
 					"INSERT INTO seller "
-					+"(Name, Email, BirthDate, BaseSalary, DepartamentoId) "
+					+"(Name, Email, BirthDate, BaseSalary, DepartmentId) "
 					+"VALUES "
 					+"(?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 					
@@ -72,7 +72,7 @@ public class VendedorDaoJDBC implements VendedorDao {
 		try {
 			st = conn.prepareStatement(
 					 "UPDATE seller "
-					+"SET Name = ? , Email = ? , BirthDate = ?, BaseSalary = ? , DepartamentoId = ? "
+					+"SET Name = ? , Email = ? , BirthDate = ?, BaseSalary = ? , DepartmentId = ? "
 					+"WHERE Id = ?" );
 					
 			st.setString(1, obj.getName());
@@ -123,9 +123,9 @@ public class VendedorDaoJDBC implements VendedorDao {
 
 		try {
 			st = conn.prepareStatement(
-					"Select seller.*, departamento.Name as DepName " 
-					+ "From seller INNER JOIN departamento "
-					+ "ON seller.DepartamentoId = departamento.Id " 
+					"Select seller.*, department.Name as DepName " 
+					+ "From seller INNER JOIN department "
+					+ "ON seller.DepartmentId = department.Id " 
 					+ "WHERE seller.Id = ?");
 
 			st.setInt(1, id);
@@ -160,7 +160,7 @@ public class VendedorDaoJDBC implements VendedorDao {
 
 	private Departamento instantiateDepartamento(ResultSet rs) throws SQLException {
 		Departamento dep = new Departamento();
-		dep.setId(rs.getInt("DepartamentoId"));
+		dep.setId(rs.getInt("DepartmentId"));
 		dep.setNome(rs.getString("DepName"));
 		return dep;
 	}
@@ -172,9 +172,9 @@ public class VendedorDaoJDBC implements VendedorDao {
 
 		try {
 			st = conn.prepareStatement(
-					"Select seller.*, departamento.Name as DepName " 
-					+ "From seller INNER JOIN departamento "
-					+ "ON seller.DepartamentoId = departamento.Id " 
+					"Select seller.*, department.Name as DepName " 
+					+ "From seller INNER JOIN department "
+					+ "ON seller.DepartmentId = department.Id " 
 					+ "Order By Name");
 
 			rs = st.executeQuery();
@@ -184,12 +184,12 @@ public class VendedorDaoJDBC implements VendedorDao {
 			
 			while (rs.next()) {
 			
-				Departamento dep = map.get(rs.getInt("DepartamentoId"));
+				Departamento dep = map.get(rs.getInt("DepartmentId"));
 				
 				if(dep == null) {
 					
 					dep = instantiateDepartamento(rs);
-					map.put(rs.getInt("DepartamentoId"), dep);
+					map.put(rs.getInt("DepartmentId"), dep);
 				}
 						
 				Vendedor seller = instantiateSeller(rs,dep);
@@ -213,10 +213,10 @@ public class VendedorDaoJDBC implements VendedorDao {
 
 		try {
 			st = conn.prepareStatement(
-					"Select seller.*, departamento.Name as DepName " 
-					+ "From seller INNER JOIN departamento "
-					+ "ON seller.DepartamentoId = departamento.Id " 
-					+ "WHERE DepartamentoId = ? "
+					"Select seller.*, department.Name as DepName " 
+					+ "From seller INNER JOIN department "
+					+ "ON seller.DepartmentId = department.Id " 
+					+ "WHERE DepartmentId = ? "
 					+ "Order By Name ");
 
 			st.setInt(1, departamento.getId());
@@ -227,12 +227,12 @@ public class VendedorDaoJDBC implements VendedorDao {
 			
 			while (rs.next()) {
 			
-				Departamento dep = map.get(rs.getInt("DepartamentoId"));
+				Departamento dep = map.get(rs.getInt("DepartmentId"));
 				
 				if(dep == null) {
 					
 					dep = instantiateDepartamento(rs);
-					map.put(rs.getInt("DepartamentoId"), dep);
+					map.put(rs.getInt("DepartmentId"), dep);
 				}
 						
 				Vendedor seller = instantiateSeller(rs,dep);
@@ -248,5 +248,7 @@ public class VendedorDaoJDBC implements VendedorDao {
 			DB.closeResultSet(rs);
 		}
 	}
+
+
 
 }
