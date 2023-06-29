@@ -1,6 +1,7 @@
 package model.dao.impl;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -38,7 +39,7 @@ public class VendedorDaoJDBC implements VendedorDao {
 					
 			st.setString(1, obj.getName());
 			st.setString(2, obj.getEmail());
-			st.setDate(3, new java.sql.Date(obj.getBirthDate().getTime()));
+			st.setDate(3, (Date) new java.util.Date(obj.getBirthDate().getTime()));
 			st.setDouble(4, obj.getBaseSalary());
 			st.setInt(5, obj.getDepartamento().getId());
 		
@@ -77,7 +78,7 @@ public class VendedorDaoJDBC implements VendedorDao {
 					
 			st.setString(1, obj.getName());
 			st.setString(2, obj.getEmail());
-			st.setDate(3, new java.sql.Date(obj.getBirthDate().getTime()));
+			st.setDate(3, (Date) new java.util.Date(obj.getBirthDate().getTime()));
 			st.setDouble(4, obj.getBaseSalary());
 			st.setInt(5, obj.getDepartamento().getId());
 			st.setInt(6, obj.getId());
@@ -147,15 +148,17 @@ public class VendedorDaoJDBC implements VendedorDao {
 		}
 	}
 
+	//Como os dados estão no banco
 	private Vendedor instantiateSeller(ResultSet rs, Departamento dep) throws SQLException {
-		Vendedor seller = new Vendedor();
-		seller.setId(rs.getInt("Id"));
-		seller.setName(rs.getString("Name"));
-		seller.setEmail(rs.getString("Email"));
-		seller.setBaseSalary(rs.getDouble("BaseSalary"));
-		seller.setBirthDate(rs.getDate("BirthDate"));
-		seller.setDepartamento(dep);
-		return seller;
+		Vendedor vendedor = new Vendedor();
+		vendedor.setId(rs.getInt("Id"));
+		vendedor.setName(rs.getString("Name"));
+		vendedor.setEmail(rs.getString("Email"));
+		vendedor.setBaseSalary(rs.getDouble("BaseSalary"));
+		vendedor.setBirthDate(new java.util.Date(rs.getTimestamp("BirthDate").getTime())); 
+		vendedor.setBirthDate(rs.getDate("BirthDate"));
+		vendedor.setDepartamento(dep);
+		return vendedor;
 	}
 
 	private Departamento instantiateDepartamento(ResultSet rs) throws SQLException {

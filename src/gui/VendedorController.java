@@ -1,8 +1,12 @@
 package gui;
 
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -17,6 +21,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import model.entities.Vendedor;
@@ -38,7 +43,25 @@ public class VendedorController implements Initializable{
 	private TextField txtNome;
 	
 	@FXML
+	private TextField txtEmail;
+	
+	@FXML
+	private DatePicker dpNascimento;
+	
+	@FXML
+	private TextField txtSalarioBase;
+	
+	@FXML
 	private Label labelNomeErro;
+	
+	@FXML
+	private Label labelEmailErro;
+	
+	@FXML
+	private Label labelNascimentoErro;
+	
+	@FXML
+	private Label labelSalarioBaseErro;
 	
 	@FXML
 	private Button btSalvar;
@@ -123,6 +146,10 @@ public class VendedorController implements Initializable{
 		
 		Limitacoes.setTextFieldInteger(txtId);
 		Limitacoes.setTextFieldMaxLength(txtNome, 40);
+		Limitacoes.setTextFieldMaxLength(txtNome, 70);
+		Limitacoes.setTextFieldMaxLength(txtEmail, 60);
+		Limitacoes.setTextFieldDouble(txtSalarioBase);
+		Utils.formatDatePicker(dpNascimento, "dd/MM/yyyy");
 	}
 	
 	public void atualizaDadosFormulários() {
@@ -131,6 +158,13 @@ public class VendedorController implements Initializable{
 		}
 		txtId.setText(String.valueOf(vendedor.getId()));
 		txtNome.setText(vendedor.getName());
+		txtEmail.setText(vendedor.getEmail());
+		Locale.setDefault(Locale.US);
+		txtSalarioBase.setText(String.format("%.2f", vendedor.getBaseSalary()));
+		if(vendedor.getBirthDate() != null) {
+			dpNascimento.setValue(LocalDate.ofInstant(vendedor.getBirthDate().toInstant(), ZoneId.systemDefault()) );
+			
+		}
 	}
 	
 	private void setMensagemDeErro (Map<String,String> erros) {
