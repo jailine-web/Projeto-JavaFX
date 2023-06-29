@@ -1,5 +1,6 @@
 package gui;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
 import java.util.List;
@@ -16,7 +17,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -24,6 +27,8 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.entities.Vendedor;
 import model.services.VendedorServico;
@@ -107,30 +112,30 @@ public class ListaVendedorController implements Initializable, EscutandoMudancaD
 
 	}
 
-	private void criarFormularioDialogo(Vendedor dep, String nomeCompletoDaTela, Stage palco) {
+	private void criarFormularioDialogo(Vendedor ven, String nomeCompletoDaTela, Stage palco) {
 //
-//		try {
-//
-//			FXMLLoader carregar = new FXMLLoader(getClass().getResource(nomeCompletoDaTela));
-//			Pane pane = carregar.load();
-//
-//			VendedorController controler = carregar.getController();
-//			controler.setVendedor(dep);
-//			controler.setVendedorServico(new VendedorServico());
-//			controler.subscreverDadosAlterados(this);
-//			controler.atualizaDadosFormulários();
-//
-//			Stage palcoDialogo = new Stage();
-//			palcoDialogo.setTitle("Entre com os dados do departamento");
-//			palcoDialogo.setScene(new Scene(pane));
-//			palcoDialogo.setResizable(false);
-//			palcoDialogo.initOwner(palco);
-//			palcoDialogo.initModality(Modality.WINDOW_MODAL);
-//			palcoDialogo.showAndWait();
-//
-//		} catch (IOException e) {
-//			Alertas.mostrarAlerta("IO Exceção", "Erro ao carregar a tela", e.getMessage(), AlertType.ERROR);
-//		}
+		try {
+
+			FXMLLoader carregar = new FXMLLoader(getClass().getResource(nomeCompletoDaTela));
+			Pane pane = carregar.load();
+
+			VendedorController controler = carregar.getController();
+			controler.setVendedor(ven);
+			controler.setVendedorServico(new VendedorServico());
+			controler.subscreverDadosAlterados(this);
+			controler.atualizaDadosFormulários();
+
+			Stage palcoDialogo = new Stage();
+			palcoDialogo.setTitle("Entre com os dados do vendedor");
+			palcoDialogo.setScene(new Scene(pane));
+			palcoDialogo.setResizable(false);
+			palcoDialogo.initOwner(palco);
+			palcoDialogo.initModality(Modality.WINDOW_MODAL);
+			palcoDialogo.showAndWait();
+
+		} catch (IOException e) {
+			Alertas.mostrarAlerta("IO Exceção", "Erro ao carregar a tela", e.getMessage(), AlertType.ERROR);
+		}
 	}
 
 	@Override
@@ -198,7 +203,7 @@ public class ListaVendedorController implements Initializable, EscutandoMudancaD
 				atualizarTelaTabela();
 			}
 			catch(DbException e) {
-				Alertas.mostrarAlerta("Erro ao remover departamento", null, e.getMessage(), AlertType.ERROR);
+				Alertas.mostrarAlerta("Erro ao remover o vendedor", null, e.getMessage(), AlertType.ERROR);
 			}
 		}
 	}

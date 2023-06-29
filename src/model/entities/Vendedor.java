@@ -1,17 +1,17 @@
 package model.entities;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Date;
 import java.util.Objects;
 
 public class Vendedor implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private Integer id;
-	private String name;
+	private String nome;
 	private String email;
-	private Date birthDate;
-	private Double baseSalary;
+	private Date nascimento;
+	private Double salarioBase;
 
 	private Departamento departamento;
 
@@ -19,12 +19,13 @@ public class Vendedor implements Serializable {
 
 	}
 
-	public Vendedor(Integer id, String name, String email, Date birthDate, Double baseSalary, Departamento departamento) {
+	public Vendedor(Integer id, String nome, String email, Date nascimento, 
+			Double salarioBase, Departamento departamento) {
 		this.id = id;
-		this.name = name;
+		this.nome = nome;
 		this.email = email;
-		this.birthDate = birthDate;
-		this.baseSalary = baseSalary;
+		this.nascimento = nascimento;
+		this.salarioBase = salarioBase;
 		this.departamento = departamento;
 	}
 
@@ -37,11 +38,11 @@ public class Vendedor implements Serializable {
 	}
 
 	public String getName() {
-		return name;
+		return nome;
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		this.nome = name;
 	}
 
 	public String getEmail() {
@@ -53,19 +54,19 @@ public class Vendedor implements Serializable {
 	}
 
 	public Date getBirthDate() {
-		return birthDate;
+		return nascimento;
 	}
 
-	public void setBirthDate(Date birthDate) {
-		this.birthDate = birthDate;
+	public void setBirthDate(Date nascimento) {
+		this.nascimento = nascimento;
 	}
 
 	public Double getBaseSalary() {
-		return baseSalary;
+		return salarioBase;
 	}
 
-	public void setBaseSalary(Double baseSalary) {
-		this.baseSalary = baseSalary;
+	public void setBaseSalary(Double salarioBase) {
+		this.salarioBase = salarioBase;
 	}
 
 	public Departamento getDepartamento() {
@@ -95,8 +96,8 @@ public class Vendedor implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Seller id: " + id + ", nome: " + name + ", email: " + email + ", birthdate: " + birthDate
-				+ ", baseSalary: " + baseSalary + " Departamento: " + departamento;
+		return "Seller id: " + id + ", nome: " + nome + ", email: " + email + ", birthdate: " + nascimento
+				+ ", baseSalary: " + salarioBase + " Departamento: " + departamento;
 	}
 
 }

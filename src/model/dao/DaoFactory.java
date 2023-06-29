@@ -9,6 +9,7 @@ public class DaoFactory {
 	public static VendedorDao criarVendedorDao() {
 		return new VendedorDaoJDBC(DB.getConnection());
 	}
+	
 	public static DepartamentoDao criarDepartamentoDAO() {
 		return new DepartamentoDaoJDBC(DB.getConnection());
 	}
