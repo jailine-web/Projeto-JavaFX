@@ -120,6 +120,7 @@ public class ListaDepartamentoController implements Initializable, EscutandoMuda
 			palcoDialogo.showAndWait();
 
 		} catch (IOException e) {
+			e.printStackTrace();
 			Alertas.mostrarAlerta("IO Exceção", "Erro ao carregar a tela", e.getMessage(), AlertType.ERROR);
 		}
 	}
