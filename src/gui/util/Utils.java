@@ -1,9 +1,9 @@
 package gui.util;
 
-import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Locale;
 
 import javafx.event.ActionEvent;
@@ -25,7 +25,8 @@ public class Utils {
 	public static Integer tentarCoverterParaInt(String str) {
 		try {
 
-			return Integer.parseInt(str);
+		return Integer.parseInt(str);
+		
 		} catch (NumberFormatException e) {
 			return null;
 		}
@@ -73,15 +74,15 @@ public class Utils {
 	public static void formatDatePicker(DatePicker datePicker, String format) {
 		datePicker.setConverter(new StringConverter<LocalDate>() {
 
-			DateTimeFormatter dataFormatada = DateTimeFormatter.ofPattern(format);
+			DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(format);
 			{
 				datePicker.setPromptText(format.toLowerCase());
 			}
 
 			@Override
-			public String toString(LocalDate data) {
-				if (data != null) {
-					return dataFormatada.format(data);
+			public String toString(LocalDate date) {
+				if (date != null) {
+					return dateFormatter.format(date);
 				} else {
 					return "";
 				}
@@ -90,7 +91,7 @@ public class Utils {
 			@Override
 			public LocalDate fromString(String string) {
 				if (string != null && !string.isEmpty()) {
-					return LocalDate.parse(string, dataFormatada);
+					return LocalDate.parse(string, dateFormatter);
 				} else {
 					return null;
 				}

@@ -145,7 +145,6 @@ public class VendedorController implements Initializable{
 	private void inicializaNos() {
 		
 		Limitacoes.setTextFieldInteger(txtId);
-		Limitacoes.setTextFieldMaxLength(txtNome, 40);
 		Limitacoes.setTextFieldMaxLength(txtNome, 70);
 		Limitacoes.setTextFieldMaxLength(txtEmail, 60);
 		Limitacoes.setTextFieldDouble(txtSalarioBase);
@@ -153,16 +152,20 @@ public class VendedorController implements Initializable{
 	}
 	
 	public void atualizaDadosFormulários() {
+		
 		if(vendedor == null) {
 			throw new IllegalStateException("O vendedor estava nulo");
 		}
+		
 		txtId.setText(String.valueOf(vendedor.getId()));
 		txtNome.setText(vendedor.getName());
 		txtEmail.setText(vendedor.getEmail());
 		Locale.setDefault(Locale.US);
 		txtSalarioBase.setText(String.format("%.2f", vendedor.getBaseSalary()));
+		
+		
 		if(vendedor.getBirthDate() != null) {
-			dpNascimento.setValue(LocalDate.ofInstant(vendedor.getBirthDate().toInstant(), ZoneId.systemDefault()) );
+			dpNascimento.setValue(LocalDate.ofInstant(vendedor.getBirthDate().toInstant(), ZoneId.systemDefault()));
 			
 		}
 	}
