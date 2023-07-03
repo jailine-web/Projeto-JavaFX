@@ -32,6 +32,16 @@ public class Utils {
 		}
 
 	}
+	public static Double tentarCoverterParaDouble(String str) {
+		try {
+			
+			return Double.parseDouble(str);
+			
+		} catch (NumberFormatException e) {
+			return null;
+		}
+		
+	}
 
 	public static <T> void formatarColunaDataDaTabela(TableColumn<T, Date> tableColumn, String formatar) {
 		tableColumn.setCellFactory(column -> {

@@ -1,9 +1,11 @@
 package gui;
 
 import java.net.URL;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -138,7 +140,34 @@ public class VendedorController implements Initializable {
 		}
 
 		ven.setName(txtNome.getText());
-
+		
+		if (txtEmail.getText() == null || txtEmail.getText().trim().equals("")) {
+			excecao.addErros("email", "O campo: email não pode ser vazio");
+		}
+		
+		ven.setEmail(txtEmail.getText());
+		
+		if(dpNascimento.getValue() == null) {
+			
+			excecao.addErros("nascimento", "O campo: data de nascimento não pode ser vazio");
+		}
+		else {
+			
+			//Pegando o valor que está no datePicker
+			Instant instante = Instant.from(dpNascimento.getValue().atStartOfDay(ZoneId.systemDefault()));
+			
+			//Converter instant para date
+			ven.setBirthDate(Date.from(instante));
+		}
+		
+		if (txtSalarioBase.getText() == null || txtSalarioBase.getText().trim().equals("")) {
+			excecao.addErros("salarioBase", "O campo: salário base não pode ser vazio");
+		}
+		
+		ven.setBaseSalary(Utils.tentarCoverterParaDouble(txtSalarioBase.getText()));
+		
+		ven.setDepartamento(comboBoxDepartamento.getValue());
+		
 		if (excecao.getErros().size() > 0) {
 			throw excecao;
 		}
@@ -209,7 +238,15 @@ public class VendedorController implements Initializable {
 
 		if (campos.contains("nome")) {
 			labelNomeErro.setText(erros.get("nome"));
+		} 
+		else {
+			labelNomeErro.setText("");
 		}
+		
+		labelEmailErro.setText(campos.contains("email") ? erros.get("email") : "" );
+		labelNascimentoErro.setText(campos.contains("nascimento") ? erros.get("nascimento") : "" );
+		labelSalarioBaseErro.setText(campos.contains("salarioBase") ? erros.get("salarioBase") : "" );
+
 	}
 
 	private void initializaDepartamentoComboBox() {
