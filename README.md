@@ -7,4 +7,4 @@
 
 ## Arquivos/ferramentas para implantação do software na máquina do cliente.
 
-https://github.com/jailine-web/Projeto-JavaFX/issues/1#issue-1788379969
+![arquivos](https://github.com/jailine-web/Projeto-JavaFX/assets/67970128/8ff827ac-32c8-4686-b5c6-10ea1bbe6358)
