@@ -35,3 +35,11 @@
 ### Cria uma variável de ambiente para o Javafx com o nome: PATH_TO_FX e insere o caminho
 ### Comando para executar o programa: java --module-path %PATH_TO_FX% --add-modules javafx.controls,javafx.fxml -cp projetoJavaFX-JDBC.jar application.Main
 ### É preciso instalar o banco de dados e popular ou inserir os dados do banco de dados remoto no arquivo db.properties. verificar se o serviço do mysql está rodando e abrir o SGBD
+
+### Criando o arquivo bat (para evitar digitar o texto de inicialização)
+
+#### 1° vai na pasta do projeto (no meu caso "meu app")
+#### 2° cria um novo arquivo de texto com extensão .bat ex: meuapp.bat
+#### 3° Clica no arquivo e em editar
+#### 4° insera o texto de iniciação do projeto e salva o arquivo com ctrl + s.
+#### 5° para rodar o projeto basta dá duplo clique no arquivo bat e aplicação será instanciada automaticamente.
